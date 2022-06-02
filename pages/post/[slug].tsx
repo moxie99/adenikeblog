@@ -2,13 +2,35 @@ import { GetStaticProps } from "next";
 import Header from "../../components/Header";
 import {sanityClient, urlFor} from "../../sanity"
 import { Post } from "../../typings";
-import PortableText from "react-portable-text"
+import PortableText from "react-portable-text";
+import {useForm, SubmitHandler} from "react-hook-form";
+interface iFormInput{
+    _id: string,
+    name: string, 
+    email: string,
+    comment: string
+}
 
 interface Props{
     post: Post;
 }
 function Post({post}: Props) {
     console.log(post)
+
+    const {register, handleSubmit, formState: {errors}} = useForm<iFormInput>();
+
+    const onSubmit: SubmitHandler<iFormInput> = async (data) => {
+       await fetch('/api/createComment', {
+              method: 'POST',
+              body: JSON.stringify(data),
+       })
+       .then(()=> {
+           console.log(data)
+       })
+       .catch(err => {
+              console.log(err)
+       })
+    }
   return (
     <main>
         <Header/>
@@ -49,25 +71,46 @@ function Post({post}: Props) {
             </div>
         </article>
         <hr className="max-w-lg mx-auto border border-pink-500"/>
-        <form className="flex flex-col max-w-2xl p-5 mx-auto mb-10">
-            <h1 className="text-3xl text-center text-purple-600 mb-7">Leave a Comment Below, It tells me I am doing something good</h1>
+        <h1 className="max-w-2xl mx-auto mt-4 mb-4 text-3xl text-center text-purple-600">Leave a Comment Below, It tells me I am doing something good</h1>
+            <hr className="max-w-lg mx-auto border border-pink-500"/>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col max-w-2xl p-5 mx-auto mb-10">
+            
+                <input
+                {...register("_id")}
+                type="hidden"
+                name="_id"
+                value={post._id}   
+                />
             <label className="block mb-5">
                 <span className="text-gray-500" >Name</span>
-                <input className="block w-full px-3 py-2 mt-1 border rounded shadow outline-none form-input ring ring-pink-100 focus:ring" type="text" />
+                <input 
+                {...register("name",{required: true})}
+                className="block w-full px-3 py-2 mt-1 border rounded shadow outline-none form-input ring ring-pink-100 focus:ring" type="text" />
             </label>
             <label className="block mb-5">
                 <span className="text-gray-500">Email</span>
-                <input className="block w-full px-3 py-2 mt-1 border rounded shadow outline-none form-input ring-pink-300 focus:ring" type="text" />
+                <input
+                {...register("email", {required: true})} 
+                className="block w-full px-3 py-2 mt-1 border rounded shadow outline-none form-input ring-pink-300 focus:ring" type="email" />
             </label>
             <label className="block mb-5">
                 <span className="text-gray-500">Comment</span>
-                <textarea className="w-full px-3 py-2 mt-3 border rounded shadow outline-none form-texture bloc ring-pink-300 focus:ring" placeholder="Write your comment here" rows={8} />
+                <textarea 
+                {...register("comment", {required: true})}
+                className="w-full px-3 py-2 mt-3 border rounded shadow outline-none form-texture bloc ring-pink-300 focus:ring" placeholder="Write your comment here" rows={8} />
             </label>
                 
-                
-                
+                {/* error handling */}
+            <div className="flex flex-col p-5">
+                { errors.name && (<p className="text-red-500">
+                    Enter a valid name, please!</p>)}
+                {errors.email && (<p className="text-red-500">
+                    Enter a valid email, please!</p>)}
+                {errors.comment && (<p className="text-red-500">Enter a comment please</p>)}
+                </div>     
+
+                <input type="submit" className="px-4 py-2 font-bold text-pink-100 bg-purple-900 rounded shadow outline-none cursor-pointer focus:shadow-outline focus:outline-none hover:bg-purple-400"/>           
         </form>
-       
     </main>
   );
 }
