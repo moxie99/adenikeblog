@@ -4,6 +4,7 @@ import {sanityClient, urlFor} from "../../sanity"
 import { Post } from "../../typings";
 import PortableText from "react-portable-text";
 import {useForm, SubmitHandler} from "react-hook-form";
+import { useState } from "react";
 interface iFormInput{
     _id: string,
     name: string, 
@@ -16,19 +17,19 @@ interface Props{
 }
 function Post({post}: Props) {
     console.log(post)
-
+const [submitted, setSubmitted] = useState(false)
     const {register, handleSubmit, formState: {errors}} = useForm<iFormInput>();
 
-    const onSubmit: SubmitHandler<iFormInput> = async (data) => {
-       await fetch('/api/createComment', {
+    const onSubmit: SubmitHandler<iFormInput> = async  (data) => {
+       await fetch("/api/createComment", {
               method: 'POST',
               body: JSON.stringify(data),
-       })
-       .then(()=> {
+       }).then(()=> {
            console.log(data)
-       })
-       .catch(err => {
+           setSubmitted(true)
+       }).catch(err => {
               console.log(err)
+              setSubmitted(false)
        })
     }
   return (
@@ -73,7 +74,11 @@ function Post({post}: Props) {
         <hr className="max-w-lg mx-auto border border-pink-500"/>
         <h1 className="max-w-2xl mx-auto mt-4 mb-4 text-3xl text-center text-purple-600">Leave a Comment Below, It tells me I am doing something good</h1>
             <hr className="max-w-lg mx-auto border border-pink-500"/>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col max-w-2xl p-5 mx-auto mb-10">
+
+            {
+                submitted ? <div className="max-w-2xl px-5 py-5 mx-auto mb-4 text-3xl text-center text-green-500 bg-green-100 mt-7 rounded-2xl">
+                    <h1>Thanks for your comment,  if approved you will see it soon.</h1></div> :(
+                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col max-w-2xl p-5 mx-auto mb-10">
             
                 <input
                 {...register("_id")}
@@ -111,6 +116,9 @@ function Post({post}: Props) {
 
                 <input type="submit" className="px-4 py-2 font-bold text-pink-100 bg-purple-900 rounded shadow outline-none cursor-pointer focus:shadow-outline focus:outline-none hover:bg-purple-400"/>           
         </form>
+                )
+            }
+        
     </main>
   );
 }
