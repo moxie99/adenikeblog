@@ -10,7 +10,10 @@ Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_mediu
 
 ## How to use
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-a<img width="1440" alt="Screenshot 2022-06-03 at 05 10 14" src="https://user-images.githubusercontent.com/8932275/171784515-0f4df25c-abcd-441b-a932-c3f876f47193.png">
+<img width="1440" alt="Screenshot 2022-06-03 at 05 10 18" src="https://user-images.githubusercontent.com/8932275/171784532-e20d37bd-7bae-427a-a01b-07de895a7f8f.png">
+<img width="1440" alt="Screenshot 2022-06-03 at 05 10 25" src="https://user-images.githubusercontent.com/8932275/171784564-3dee356c-fba5-4fda-9b66-1a6a3ca8e7d4.png">
+pp) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
 
 ```bash
 npx create-next-app --example with-tailwindcss with-tailwindcss-app
