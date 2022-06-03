@@ -118,6 +118,20 @@ const [submitted, setSubmitted] = useState(false)
         </form>
                 )
             }
+
+            {/* comments section */}
+            {
+                post.comments.map((comment) => (
+                    <div className="flex flex-col px-5 mx-3 my-2 bg-pink-200 py-7">
+                        <h3>Comments</h3>
+                        <div className="flex justify-between px-3 py-5 mx-3 my-4 align-center">
+                            <p>{comment.name}</p>
+                            <p>{comment._createdAt}</p>
+                        </div>
+                        <p>{comment.comment}</p>
+                    </div>
+                ))
+            }
         
     </main>
   );
