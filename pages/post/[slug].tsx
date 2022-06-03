@@ -118,20 +118,20 @@ const [submitted, setSubmitted] = useState(false)
         </form>
                 )
             }
-
+            <div className="flex flex-col max-w-3xl p-10 mx-auto my-10 space-y-2 shadow shadow-purple-200 ">
+                <h3 className="text-4xl">Comments</h3>
+              <hr className="border border-pink-900 mb-15"/>
             {/* comments section */}
             {
                 post.comments.map((comment) => (
-                    <div className="flex flex-col px-5 mx-3 my-2 bg-pink-200 py-7">
-                        <h3>Comments</h3>
-                        <div className="flex justify-between px-3 py-5 mx-3 my-4 align-center">
-                            <p>{comment.name}</p>
-                            <p>{comment._createdAt}</p>
-                        </div>
-                        <p>{comment.comment}</p>
+                    <div key={comment._id}>
+                        <p>
+                            <span className="text-purple-500">{comment.name}</span>:  <span>{comment.comment}</span>
+                        </p>
                     </div>
                 ))
             }
+            </div>
         
     </main>
   );
